@@ -91,17 +91,59 @@ class Stepper
         steps_done++;
         
       }
-      
-      delay(300);
-      
-      motor_left->step(1000, BACKWARD, DOUBLE);
     }
     
-    //turing the robot 
-    /*void turn(int degree)
+    //turing the robot to the left 
+    void turn_left(int degree)
     {
-      while 
-    }*/
+      //set the state to "driving"
+      this->is_driving = 1;
+      
+      int steps_done = 0;
+      
+      //add code to make the two stepper motors drive
+      while (is_driving && steps_done <= degree)
+      {
+        /*
+          move the motors a certain ammount of steps ... values have to be tweaked (in cm)
+          also there are multiple options for the third parameter (SINGLE, DOUBLE, INTERLEAVE, MICROSTEP)
+          maybe this won't work properly, because it's making one step at a time
+        */
+        
+        motor_left->step(1, BACKWARD, DOUBLE);
+        motor_right->step(1, FORWARD, DOUBLE);
+        
+        
+        steps_done++;
+        
+      }
+    }
+    
+    //turning the robot to the right
+    void turn_right(int degree)
+    {
+      //set the state to "driving"
+      this->is_driving = 1;
+      
+      int steps_done = 0;
+      
+      //add code to make the two stepper motors drive
+      while (is_driving && steps_done <= degree)
+      {
+        /*
+          move the motors a certain ammount of steps ... values have to be tweaked (in cm)
+          also there are multiple options for the third parameter (SINGLE, DOUBLE, INTERLEAVE, MICROSTEP)
+          maybe this won't work properly, because it's making one step at a time
+        */
+        
+        motor_left->step(1, FORWARD, DOUBLE);
+        motor_right->step(1, BACKWARD, DOUBLE);
+        
+        
+        steps_done++;
+        
+      }
+    }
     
 };
 
