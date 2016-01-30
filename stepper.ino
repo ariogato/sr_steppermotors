@@ -66,6 +66,30 @@ class Stepper
       }
     }
     
+    //if you just want to break out and crush all the chains #burr #freedom
+    void forward_infinitely()
+    {
+      //set the state to "driving"
+      this->is_driving = 1;
+      
+      int steps_done = 0;
+      
+      //just an emergency stop
+      while (is_driving && steps_done <= 10000)
+      {
+        /*
+          move the motors a certain ammount of steps ... values have to be tweaked (in cm)
+          also there are multiple options for the third parameter (SINGLE, DOUBLE, INTERLEAVE, MICROSTEP)
+        */
+        
+        motor_left->step(1, FORWARD, DOUBLE);
+        motor_right->step(1, FORWARD, DOUBLE);
+        
+        steps_done++;
+        
+      }
+    }
+    
     //member-function to move the robot backwards
     //distance in cm
     void backward(int distance)
@@ -92,6 +116,32 @@ class Stepper
         
       }
     }
+    
+    
+    //if you just want to break out and crush all the chains #burr #freedom
+    void forward_infinitely()
+    {
+      //set the state to "driving"
+      this->is_driving = 1;
+      
+      int steps_done = 0;
+      
+      //just an emergency stop
+      while (is_driving && steps_done <= 10000)
+      {
+        /*
+          move the motors a certain ammount of steps ... values have to be tweaked (in cm)
+          also there are multiple options for the third parameter (SINGLE, DOUBLE, INTERLEAVE, MICROSTEP)
+        */
+        
+        motor_left->step(1, BACKWARD, DOUBLE);
+        motor_right->step(1, BACKWARD, DOUBLE);
+        
+        steps_done++;
+        
+      }
+    }
+    
     
     //turing the robot to the left 
     void turn_left(int degree)
