@@ -1,2 +1,3 @@
 1. adding an interrupt sequence to stop the motors from running
-2. "forward" and "backward" need some tweaking
+2. making the robot turn (degrees)
+3. optimization
