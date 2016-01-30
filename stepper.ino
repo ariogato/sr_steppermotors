@@ -8,7 +8,7 @@
 */
 
 //speed for the stepper motors
-#define SPEED 10
+#define SPEED 1000
 
 //steps per revolution
 #define STEPS 48
@@ -38,6 +38,7 @@ class Stepper
       //setting the speed of each stepper motor ... obviously
       motor_left->setSpeed(SPEED);
       motor_right->setSpeed(SPEED);
+      
     }
     
     //member-function to move the robot forwards
@@ -52,8 +53,11 @@ class Stepper
       //add code to make the two stepper motors drive
       while (is_driving && steps_done <= distance)
       {
-        //move the motors a certain ammount of steps ... values have to be tweaked (in cm)
-        //also there are multiple options for the third parameter (SINGLE, DOUBLE, INTERLEAVE, MICROSTEP)
+        /*
+          move the motors a certain ammount of steps ... values have to be tweaked (in cm)
+          also there are multiple options for the third parameter (SINGLE, DOUBLE, INTERLEAVE, MICROSTEP)
+        */
+        
         motor_left->step(1, FORWARD, DOUBLE);
         motor_right->step(1, FORWARD, DOUBLE);
         
@@ -74,15 +78,23 @@ class Stepper
       //add code to make the two stepper motors drive
       while (is_driving && steps_done <= distance)
       {
-        //move the motors a certain ammount of steps ... values have to be tweaked (in cm)
-        //also there are multiple options for the third parameter (SINGLE, DOUBLE, INTERLEAVE, MICROSTEP)
-        //probably this won't work properly, because it's making one step at a time
-        motor_left->step(0.1, BACKWARD, DOUBLE);
-        motor_right->step(0.11, BACKWARD, DOUBLE);
+        /*
+          move the motors a certain ammount of steps ... values have to be tweaked (in cm)
+          also there are multiple options for the third parameter (SINGLE, DOUBLE, INTERLEAVE, MICROSTEP)
+          maybe this won't work properly, because it's making one step at a time
+        */
+        
+        motor_left->step(1, BACKWARD, DOUBLE);
+        motor_right->step(1, BACKWARD, DOUBLE);
+        
         
         steps_done++;
         
       }
+      
+      delay(300);
+      
+      motor_left->step(1000, BACKWARD, DOUBLE);
     }
     
     //turing the robot 
@@ -105,5 +117,17 @@ void setup()
 }
 
 void loop() {
-
+  
+  Stepper* s = new Stepper();
+  
+  s->forward(1000);
+  
+  delay(500);
+  
+  s->backward(1000);
+  
+  delete s;
+  
+  delay(500);
 }
+
