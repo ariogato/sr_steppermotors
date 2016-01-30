@@ -119,7 +119,7 @@ class Stepper
     
     
     //if you just want to break out and crush all the chains #burr #freedom
-    void forward_infinitely()
+    void backward_infinitely()
     {
       //set the state to "driving"
       this->is_driving = 1;
