@@ -11,7 +11,7 @@
 #define SPEED 1000
 
 //steps per revolution
-#define STEPS 30
+#define STEPS 200
 
 
 //library for the motor-shield (obviously)
