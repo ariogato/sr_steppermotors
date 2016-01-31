@@ -332,7 +332,7 @@ void loop()
   
   
   /*
-      the member functions runing infinitely will be add later (if needed)
+      the member functions "running_infinitely", etc. will be add later (if needed)
   */
   
   
