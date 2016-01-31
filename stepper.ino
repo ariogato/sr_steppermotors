@@ -241,19 +241,24 @@ void loop() {
   
   Stepper* s = new Stepper();
   
+  //variable to store user input
   String input = "";
   
-  while(!(Serial.available()))
+  
+  
+  
+  //wait until there's something in the serial buffer
+  while(Serial.available() == 0);
+  
+  //storing the input
+  while((Serial.available()))
   {
-    if(Serial.available())
-    {
     input += (char)Serial.read();
-    Serial.println("reached");
-    break;
-    }
+    
+    Serial.println("reached buffer-clearing");
   }
   
-  
+  //decison making about the input
   if(input == "a")
   {
     s->forward(1000);
@@ -263,7 +268,10 @@ void loop() {
     s->backward(1000);
   }
   
+  
   delete s;
+  
+  Serial.println("reached end");
   
 }
 
