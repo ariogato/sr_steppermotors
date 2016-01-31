@@ -11,7 +11,7 @@
 #define SPEED 1000
 
 //steps per revolution
-#define STEPS 48
+#define STEPS 30
 
 
 //library for the motor-shield (obviously)
@@ -85,10 +85,12 @@ class Stepper
       //set the state to "driving"
       this->is_driving = 1;
       
+      String help = "1";
+      
       int steps_done = 0;
       
       //just an emergency stop
-      while (is_driving && steps_done <= 10000)
+      while (is_driving && steps_done <= 10)
       {
         /*
           move the motors a certain ammount of steps ... values have to be tweaked (in cm)
@@ -99,6 +101,16 @@ class Stepper
         motor_right->step(1, FORWARD, DOUBLE);
         
         steps_done++;
+        
+        //if there is some data in the registry, then take it
+        while(Serial.available())
+        {
+          //store the received data in a string
+          help += (char)Serial.read();
+        }
+        
+        //This is actually working.... I think it would best if I'd just kill myself... 
+        is_driving = imitate_cast(help);
         
       }
     }
@@ -149,6 +161,8 @@ class Stepper
       //set the state to "driving"
       this->is_driving = 1;
       
+      String help = "1";
+      
       int steps_done = 0;
       
       //just an emergency stop
@@ -164,6 +178,16 @@ class Stepper
         
         steps_done++;
         
+        //if there is some data in the registry, then take it
+        while(Serial.available())
+        {
+          //store the received data in a string
+          help += (char)Serial.read();
+        }
+        
+        //This is actually working.... I think it would best if I'd just kill myself... 
+        is_driving = imitate_cast(help);
+        
       }
     }
     
@@ -173,6 +197,8 @@ class Stepper
     {
       //set the state to "driving"
       this->is_driving = 1;
+      
+      String help = "1";
       
       int steps_done = 0;
       
@@ -191,6 +217,16 @@ class Stepper
         
         steps_done++;
         
+        //if there is some data in the registry, then take it
+        while(Serial.available())
+        {
+          //store the received data in a string
+          help += (char)Serial.read();
+        }
+        
+        //This is actually working.... I think it would best if I'd just kill myself... 
+        is_driving = imitate_cast(help);
+        
       }
     }
     
@@ -199,6 +235,8 @@ class Stepper
     {
       //set the state to "driving"
       this->is_driving = 1;
+      
+      String help = "1";
       
       int steps_done = 0;
       
@@ -216,6 +254,16 @@ class Stepper
         
         
         steps_done++;
+        
+        //if there is some data in the registry, then take it
+        while(Serial.available())
+        {
+          //store the received data in a string
+          help += (char)Serial.read();
+        }
+        
+        //This is actually working.... I think it would best if I'd just kill myself... 
+        is_driving = imitate_cast(help);
         
       }
     }
@@ -237,14 +285,19 @@ void setup()
   
 }
 
-void loop() {
+
+
+//beginning of the program
+void loop() 
+{
   
   Stepper* s = new Stepper();
   
   //variable to store user input
   String input = "";
   
-  
+  //variable to store the ammount of steps the user wants to make default = 100;
+  int steps = 1000;
   
   
   //wait until there's something in the serial buffer
@@ -259,14 +312,29 @@ void loop() {
   }
   
   //decison making about the input
-  if(input == "a")
+  if(input == "a")                                  //forwards
   {
-    s->forward(1000);
+    s->forward(steps);
   }
-  else if(input == "b")
+  else if(input == "b")                             //backwards
   {
-    s->backward(1000);
+    s->backward(steps);
   }
+  else if(input == "c")                             //turn_left
+  {
+    s->turn_left(steps);
+  }
+  else if(input == "d")                             //turn_right
+  {
+    s->turn_right(steps);
+  }
+  
+  
+  
+  /*
+      the member functions runing infinitely will be add later (if needed)
+  */
+  
   
   
   delete s;
