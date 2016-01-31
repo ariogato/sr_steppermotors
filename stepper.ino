@@ -45,8 +45,11 @@ class Stepper
     //distance in cm
     void forward(int distance)
     {
+      
       //set the state to "driving"
       this->is_driving = 1;
+      
+      String help = "1";
       
       int steps_done = 0;
       
@@ -62,6 +65,16 @@ class Stepper
         motor_right->step(1, FORWARD, DOUBLE);
         
         steps_done++;
+        
+        //if there is some data in the registry, then take it
+        while(Serial.available())
+        {
+          //store the received data in a string
+          help += (char)Serial.read();
+        }
+        
+        //This is actually working.... I think it would best if I'd just kill myself... 
+        is_driving = imitate_cast(help);
         
       }
     }
@@ -97,6 +110,8 @@ class Stepper
       //set the state to "driving"
       this->is_driving = 1;
       
+      String help = "1";
+      
       int steps_done = 0;
       
       //add code to make the two stepper motors drive
@@ -113,6 +128,16 @@ class Stepper
         
         
         steps_done++;
+        
+        //if there is some data in the registry, go take it
+        while(Serial.available())
+        {
+          //store the received data in a string
+          help += (char)Serial.read();
+        }
+        
+        //This is actually working.... I think it would best if I'd just kill myself... 
+        is_driving = imitate_cast(help);
         
       }
     }
@@ -198,6 +223,10 @@ class Stepper
 };
 
 
+//to cast a string into a boolean .. will be enough for this project 
+bool imitate_cast(String&);
+
+
 void setup() 
 {
   //set the necessary bits in the register for uart 
@@ -212,14 +241,37 @@ void loop() {
   
   Stepper* s = new Stepper();
   
-  s->forward(1000);
+  String input = "";
   
-  delay(500);
+  while(!(Serial.available()))
+  {
+    if(Serial.available())
+    {
+    input += (char)Serial.read();
+    Serial.println("reached");
+    break;
+    }
+  }
   
-  s->backward(1000);
+  
+  if(input == "a")
+  {
+    s->forward(1000);
+  }
+  else if(input == "b")
+  {
+    s->backward(1000);
+  }
   
   delete s;
   
-  delay(500);
 }
+
+
+//this is so retarded
+bool imitate_cast(String& s)
+{
+  return s == "true" || s == "1";
+}
+
 
