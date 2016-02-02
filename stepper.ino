@@ -279,6 +279,9 @@ class Stepper
 //to cast a string into a boolean .. will be enough for this project 
 bool imitate_cast(String&);
 
+//to handle the input
+void process_input(String&, int&);
+
 
 void setup() 
 {
@@ -315,14 +318,18 @@ void loop()
     
     input += inChar;
     
-    Serial.println("reached buffer-clearing");
+    //Serial.println("reached buffer-clearing");
     
     //waiting for the buffer to get filled with data again
-    delay(1);
-    
+    delay(2);
     
   }
   
+  process_input(input, steps);
+  
+  //Serial.println(input);
+  
+  //Serial.println(steps);
   
   
   //decison making about the input
@@ -362,6 +369,42 @@ void loop()
 bool imitate_cast(String& s)
 {
   return s == "true" || s == "1";
+}
+
+void process_input(String& s, int& param)
+{
+  /*
+    1. extract certain information (parameter[cm])
+
+          - the parameter is seperated be a colon
+
+    2. delete the parameter out of the input string (for further processing)
+  */
+  
+  //find the colon in the string
+  int colonPos = s.indexOf(':');
+  
+  //for storing the value temporarly
+  String help = "";
+  
+  
+  //extract the parameter and store it
+  for(int i = colonPos + 1; i < s.length(); i++)
+  {
+    help += s[i];
+    
+  }
+  
+  //Serial.println(help.toInt());
+  
+  param = help.toInt();
+  
+  
+  //prepare input for further processing
+  s = (String)s.charAt(colonPos - 1);
+  
+  
+  
 }
 
 
