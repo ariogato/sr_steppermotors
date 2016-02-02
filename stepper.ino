@@ -17,6 +17,10 @@
 //library for the motor-shield (obviously)
 #include <AFMotor.h>
 
+#include <SoftwareSerial.h>
+
+SoftwareSerial myserial();
+
 class Stepper
 {
   private:
@@ -75,6 +79,7 @@ class Stepper
         
         //This is actually working.... I think it would best if I'd just kill myself... 
         is_driving = imitate_cast(help);
+        
         
       }
     }
@@ -306,10 +311,19 @@ void loop()
   //storing the input
   while((Serial.available()))
   {
-    input += (char)Serial.read();
+    char inChar = (char)Serial.read();
+    
+    input += inChar;
     
     Serial.println("reached buffer-clearing");
+    
+    //waiting for the buffer to get filled with data again
+    delay(1);
+    
+    
   }
+  
+  
   
   //decison making about the input
   if(input == "a")                                  //forwards
@@ -349,5 +363,6 @@ bool imitate_cast(String& s)
 {
   return s == "true" || s == "1";
 }
+
 
 
