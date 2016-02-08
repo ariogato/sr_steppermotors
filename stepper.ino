@@ -45,6 +45,20 @@ class Stepper
       
     }
     
+    //copy constructor
+    Stepper(Stepper& s)
+    {
+      this->motor_left = s.motor_left;
+      this->motor_right = s.motor_right;
+    }
+    
+    //destructor
+    ~Stepper()
+    {
+      delete motor_right;
+      delete motor_left;
+    }
+    
     //member-function to move the robot forwards
     //distance in cm
     void forward(int distance)
